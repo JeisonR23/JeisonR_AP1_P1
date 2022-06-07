@@ -1,0 +1,79 @@
+@page "/C_Aportes"
+
+@inject AportesBLL aportesBLL;
+
+<EditForm Model="lista">
+    <DataAnnotationsValidator />
+
+
+
+    <div class="card-head">
+        <h3>Consulta de Aportes</h3>
+    </div>
+    <form>
+        <div class="form-group">
+            <label class="colum -2">Filtro</label>
+            <select class="colum -2" @bind="Filtro">
+                <option value="1">Persona</option>
+                <option value="2">Fecha</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="colum -2">Criterio</label>
+            <input class="colum-2" type="text" @bind="Criterio">
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-lg btn-warning" @onclick="Buscar">
+                <i>Buscar</i>
+            </button>
+        </div>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>AporteId</th>
+                <th>Persona</th>
+                <th>Monto</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var aporte in lista)
+            {
+                <tr>
+                    <td>@aporte.AporteId</td>
+                    <td>@aporte.Persona</td>
+                    <td>@aporte.Monto</td>
+                    <td><a href="R_Aportes/@aporte.AporteId">Ver</a></td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+    <div class="form=-group">
+        <label class="form-control">Conteo</label>
+        <input class="form-control" type="text">
+    </div>
+
+    <div class="form-group">
+        <label class="form-control">Total</label>
+        <input class="form-control" type="text">
+    </div>
+
+</EditForm>
+
+@code
+{
+    public string Filtro { get; set; }
+    public string Criterio { get; set; }
+
+    public List<Aportes> lista { get; set; } = new List<Aportes>();
+
+    public void Buscar()
+    {
+        lista = aportesBLL.GetAportes();
+    }
+
+}
